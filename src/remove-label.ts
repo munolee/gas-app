@@ -28,22 +28,30 @@ async function findOpenPr(githubScript: GithubScriptInput) {
   return prNumberList;
 }
 
-// alpha, staging label만 삭제
-function removeLabels(githubScript: GithubScriptInput, prNumber: number) {
+// alpha, staging label 삭제
+function removeLabels(githubScript: GithubScriptInput, prNumberList: number[]) {
   const { repo, owner } = githubScript.context.repo;
   console.log('--------------- 🗑 Remove Labels ---------------');
-  console.log(`🔔 Remove labels to #${prNumber}`);
 
-  return Promise.allSettled(
-    ['alpha', 'staging'].map((label) =>
-      githubScript.github.rest.issues.removeLabel({
-        owner,
-        repo,
-        issue_number: prNumber,
-        name: label,
-      }),
-    ),
-  );
+  prNumberList.map((prNumber) => {
+    githubScript.github.rest.issues.removeLabel({
+      owner,
+      repo,
+      issue_number: prNumber,
+      name: 'alpha',
+    });
+  });
+  console.log('🔔 Remove alpha labels');
+
+  prNumberList.map((prNumber) => {
+    githubScript.github.rest.issues.removeLabel({
+      owner,
+      repo,
+      issue_number: prNumber,
+      name: 'staging',
+    });
+  });
+  console.log('🔔 Remove staging labels');
 }
 
 export const removeLabel = async (githubScript: GithubScriptInput) => {
@@ -51,7 +59,7 @@ export const removeLabel = async (githubScript: GithubScriptInput) => {
   console.log(githubScript.context.payload);
 
   // Get pull request number list has alpha/staging label
-  const prNumber = await findOpenPr(githubScript);
+  const prNumberList = await findOpenPr(githubScript);
 
-  // removeLabels(githubScript, prNumber);
+  removeLabels(githubScript, prNumberList);
 };
