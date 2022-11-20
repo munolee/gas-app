@@ -60,7 +60,7 @@ function findOpenPr(githubScript) {
                     console.log('--------------- 🖨 Get PR List ---------------');
                     console.log('🔔 PR List: ', prList);
                     hasLabelPrList = prList.data.filter(function (head) {
-                        return head.labels.some(function (label) { return label.name === 'alpha' || label.name === 'staging'; });
+                        return head.labels.some(function (label) { return ['alpha', 'staging'].indexOf(label.name) > -1; });
                     });
                     if (!hasLabelPrList.length) {
                         return [2 /*return*/, Promise.reject('alpha, staging 라벨이 포함된 Pull Request가 없습니다.')];
