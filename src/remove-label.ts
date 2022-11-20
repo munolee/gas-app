@@ -17,7 +17,7 @@ async function findOpenPr(githubScript: GithubScriptInput) {
 
   const prNumber = prList.data.find((head) => {
     console.log(head.labels);
-    // head.labels.find(() => 'alpha', 'staging');
+    head.labels.find(() => 'alpha', 'staging');
   })?.number;
 
   return prNumber;
