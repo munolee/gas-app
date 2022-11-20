@@ -17,6 +17,7 @@ async function findOpenPr(githubScript: GithubScriptInput) {
     );
   });
 
+  console.log('test');
   console.log(prNumberList);
 
   if (!prNumberList.length) {
