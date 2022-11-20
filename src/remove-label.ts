@@ -33,29 +33,19 @@ function removeLabels(githubScript: GithubScriptInput, prNumberList: number[]) {
   const { repo, owner } = githubScript.context.repo;
   console.log('--------------- 🗑 Remove Labels ---------------');
 
-  Promise.allSettled(
-    prNumberList.map((prNumber) => {
-      githubScript.github.rest.issues.removeLabel({
-        owner,
-        repo,
-        issue_number: prNumber,
-        name: 'alpha',
+  console.log('🔔 Remove alpha/staging label');
+  return Promise.allSettled(
+    ['alpha', 'staging'].map((label) => {
+      prNumberList.map((prNumber) => {
+        githubScript.github.rest.issues.removeLabel({
+          owner,
+          repo,
+          issue_number: prNumber,
+          name: 'alpha',
+        });
       });
     }),
   );
-  console.log('🔔 Remove alpha label');
-
-  Promise.allSettled(
-    prNumberList.map((prNumber) => {
-      githubScript.github.rest.issues.removeLabel({
-        owner,
-        repo,
-        issue_number: prNumber,
-        name: 'staging',
-      });
-    }),
-  );
-  console.log('🔔 Remove staging label');
 }
 
 export const removeLabel = async (githubScript: GithubScriptInput) => {
@@ -65,5 +55,6 @@ export const removeLabel = async (githubScript: GithubScriptInput) => {
   // Get pull request number list has alpha/staging label
   const prNumberList = await findOpenPr(githubScript);
 
+  // Remove labels
   await removeLabels(githubScript, prNumberList);
 };
