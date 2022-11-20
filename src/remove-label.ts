@@ -15,25 +15,21 @@ async function findOpenPr(githubScript: GithubScriptInput) {
     );
   });
 
-  const prNumberList = hasLabelPrList.map((pr) => pr.number);
-
-  console.log(prNumberList);
-
-  if (!prNumberList.length) {
+  if (!hasLabelPrList.length) {
     return Promise.reject(
       'alpha, staging 라벨이 포함된 Pull Request가 없습니다.',
     );
   }
 
-  return prNumberList;
+  return hasLabelPrList.map((pr) => pr.number);
 }
 
 // alpha, staging label 삭제
 function removeLabels(githubScript: GithubScriptInput, prNumberList: number[]) {
   const { repo, owner } = githubScript.context.repo;
   console.log('--------------- 🗑 Remove Labels ---------------');
-
   console.log('🔔 Remove alpha/staging label');
+
   return Promise.allSettled(
     ['alpha', 'staging'].map((label) => {
       prNumberList.map((prNumber) => {
@@ -41,7 +37,7 @@ function removeLabels(githubScript: GithubScriptInput, prNumberList: number[]) {
           owner,
           repo,
           issue_number: prNumber,
-          name: 'alpha',
+          name: label,
         });
       });
     }),
