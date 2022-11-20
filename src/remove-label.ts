@@ -9,11 +9,13 @@ async function findOpenPr(githubScript: GithubScriptInput) {
   console.log('--------------- 🖨 Get PR List ---------------');
   console.log('🔔 PR List: ', prList);
 
-  const prNumberList = prList.data.filter((head) => {
+  const prNumberList = prList.data.map((head) => {
     const hasLabel = head.labels.find((label) => {
       return label.name === 'alpha' || label.name === 'staging';
     });
-    return hasLabel && head.number;
+    if (hasLabel) {
+      return head.number;
+    }
   });
 
   console.log(prNumberList);
