@@ -11,7 +11,7 @@ async function findOpenPr(githubScript: GithubScriptInput) {
 
   const hasLabelPrList = prList.data.filter((head) => {
     return head.labels.some(
-      (label) => label.name === 'alpha' || label.name === 'staging',
+      (label) => ['alpha', 'staging'].indexOf(label.name) > -1,
     );
   });
 
