@@ -45,31 +45,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.removeLabel = void 0;
 function findOpenPr(githubScript) {
-    var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var _b, repo, owner, prList, prNumber;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        var _a, repo, owner, prList, prNumberList;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    _b = githubScript.context.repo, repo = _b.repo, owner = _b.owner;
+                    _a = githubScript.context.repo, repo = _a.repo, owner = _a.owner;
                     return [4 /*yield*/, githubScript.github.rest.pulls.list({
                             owner: owner,
                             repo: repo,
                         })];
                 case 1:
-                    prList = _c.sent();
+                    prList = _b.sent();
                     console.log('--------------- 🖨 Get PR List ---------------');
                     console.log('🔔 PR List: ', prList);
-                    prNumber = (_a = prList.data.find(function (head) {
-                        console.log(head.labels);
+                    prNumberList = prList.data.map(function (head) {
+                        console.log('head.labels', head.labels);
                         return head.labels.find(function (label) { return label.name === 'alpha' || label.name === 'staging'; });
-                    })) === null || _a === void 0 ? void 0 : _a.number;
-                    console.log(prNumber);
-                    if (!prNumber) {
+                    });
+                    console.log(prNumberList);
+                    if (!prNumberList.length) {
                         return [2 /*return*/, Promise.reject("alpha, staging \uB77C\uBCA8\uC774 \uD3EC\uD568\uB41C Pull Request\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")];
                     }
-                    console.log(prNumber);
-                    return [2 /*return*/, prNumber];
+                    console.log(prNumberList);
+                    return [2 /*return*/, prNumberList];
             }
         });
     });
