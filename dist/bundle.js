@@ -60,11 +60,14 @@ function findOpenPr(githubScript) {
                     console.log('--------------- 🖨 Get PR List ---------------');
                     console.log('🔔 PR List: ', prList);
                     prNumberList = prList.data.map(function (head) {
-                        return (head.labels.filter(function (label) { return label.name === 'alpha' || label.name === 'staging'; }) && head.number);
+                        var hasLabel = head.labels.find(function (label) {
+                            return label.name === 'alpha' || label.name === 'staging';
+                        });
+                        return hasLabel && head.number;
                     });
                     console.log(prNumberList);
                     if (!prNumberList.length) {
-                        return [2 /*return*/, Promise.reject("alpha, staging \uB77C\uBCA8\uC774 \uD3EC\uD568\uB41C Pull Request\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")];
+                        return [2 /*return*/, Promise.reject('alpha, staging 라벨이 포함된 Pull Request가 없습니다.')];
                     }
                     return [2 /*return*/, prNumberList];
             }
