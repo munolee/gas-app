@@ -9,23 +9,23 @@ async function findOpenPr(githubScript: GithubScriptInput) {
   console.log('--------------- 🖨 Get PR List ---------------');
   console.log('🔔 PR List: ', prList);
 
-  const prNumber = prList.data.find((head) => {
-    console.log(head.labels);
+  const prNumberList = prList.data.map((head) => {
+    console.log('head.labels', head.labels);
     return head.labels.find(
       (label) => label.name === 'alpha' || label.name === 'staging',
     );
-  })?.number;
+  });
 
-  console.log(prNumber);
+  console.log(prNumberList);
 
-  if (!prNumber) {
+  if (!prNumberList.length) {
     return Promise.reject(
       `alpha, staging 라벨이 포함된 Pull Request가 없습니다.`,
     );
   }
 
-  console.log(prNumber);
-  return prNumber;
+  console.log(prNumberList);
+  return prNumberList;
 }
 
 // alpha, staging label만 삭제
