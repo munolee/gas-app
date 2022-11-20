@@ -44,10 +44,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.removeLabel = void 0;
-var removeAlphaLabel = function (githubScript) {
-    var _a = githubScript.context.repo, repo = _a.repo, owner = _a.owner;
-    githubScript.github.rest;
-};
 function findOpenPr(githubScript) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
@@ -66,12 +62,31 @@ function findOpenPr(githubScript) {
                     console.log('🔔 PR List: ', prList);
                     prNumber = (_a = prList.data.find(function (head) {
                         console.log(head.labels);
-                        head.labels.find(function () { return 'alpha'; }, 'staging');
+                        head.labels.find(function (label) { return label.name === ('alpha' || 0); });
                     })) === null || _a === void 0 ? void 0 : _a.number;
+                    console.log(prNumber);
+                    if (!prNumber) {
+                        return [2 /*return*/, Promise.reject("alpha, staging \uB77C\uBCA8\uC774 \uD3EC\uD568\uB41C Pull Request\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")];
+                    }
+                    console.log(prNumber);
                     return [2 /*return*/, prNumber];
             }
         });
     });
+}
+// alpha, staging label만 삭제
+function removeLabels(githubScript, prNumber) {
+    var _a = githubScript.context.repo, repo = _a.repo, owner = _a.owner;
+    console.log('--------------- 🗑 Remove Labels ---------------');
+    console.log("\uD83D\uDD14 Remove labels to #".concat(prNumber));
+    return Promise.allSettled(['alpha', 'staging'].map(function (label) {
+        return githubScript.github.rest.issues.removeLabel({
+            owner: owner,
+            repo: repo,
+            issue_number: prNumber,
+            name: label,
+        });
+    }));
 }
 var removeLabel = function (githubScript) { return __awaiter(void 0, void 0, void 0, function () {
     var prNumber;
