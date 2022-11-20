@@ -46,7 +46,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.removeLabel = void 0;
 function findOpenPr(githubScript) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, repo, owner, prList, hasLabelPrList, prNumberList;
+        var _a, repo, owner, prList, hasLabelPrList;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -62,12 +62,10 @@ function findOpenPr(githubScript) {
                     hasLabelPrList = prList.data.filter(function (head) {
                         return head.labels.some(function (label) { return label.name === 'alpha' || label.name === 'staging'; });
                     });
-                    prNumberList = hasLabelPrList.map(function (pr) { return pr.number; });
-                    console.log(prNumberList);
-                    if (!prNumberList.length) {
+                    if (!hasLabelPrList.length) {
                         return [2 /*return*/, Promise.reject('alpha, staging 라벨이 포함된 Pull Request가 없습니다.')];
                     }
-                    return [2 /*return*/, prNumberList];
+                    return [2 /*return*/, hasLabelPrList.map(function (pr) { return pr.number; })];
             }
         });
     });
@@ -83,7 +81,7 @@ function removeLabels(githubScript, prNumberList) {
                 owner: owner,
                 repo: repo,
                 issue_number: prNumber,
-                name: 'alpha',
+                name: label,
             });
         });
     }));
