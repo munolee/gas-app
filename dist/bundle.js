@@ -72,22 +72,31 @@ function findOpenPr(githubScript) {
         });
     });
 }
-// alpha, staging label만 삭제
-function removeLabels(githubScript, prNumber) {
+// alpha, staging label 삭제
+function removeLabels(githubScript, prNumberList) {
     var _a = githubScript.context.repo, repo = _a.repo, owner = _a.owner;
     console.log('--------------- 🗑 Remove Labels ---------------');
-    console.log("\uD83D\uDD14 Remove labels to #".concat(prNumber));
-    return Promise.allSettled(['alpha', 'staging'].map(function (label) {
-        return githubScript.github.rest.issues.removeLabel({
+    prNumberList.map(function (prNumber) {
+        githubScript.github.rest.issues.removeLabel({
             owner: owner,
             repo: repo,
             issue_number: prNumber,
-            name: label,
+            name: 'alpha',
         });
-    }));
+    });
+    console.log('🔔 Remove alpha labels');
+    prNumberList.map(function (prNumber) {
+        githubScript.github.rest.issues.removeLabel({
+            owner: owner,
+            repo: repo,
+            issue_number: prNumber,
+            name: 'staging',
+        });
+    });
+    console.log('🔔 Remove staging labels');
 }
 var removeLabel = function (githubScript) { return __awaiter(void 0, void 0, void 0, function () {
-    var prNumber;
+    var prNumberList;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -95,7 +104,8 @@ var removeLabel = function (githubScript) { return __awaiter(void 0, void 0, voi
                 console.log(githubScript.context.payload);
                 return [4 /*yield*/, findOpenPr(githubScript)];
             case 1:
-                prNumber = _a.sent();
+                prNumberList = _a.sent();
+                removeLabels(githubScript, prNumberList);
                 return [2 /*return*/];
         }
     });
