@@ -59,11 +59,9 @@ function findOpenPr(githubScript) {
                     prList = _b.sent();
                     console.log('--------------- 🖨 Get PR List ---------------');
                     console.log('🔔 PR List: ', prList);
-                    prNumberList = prList.data
-                        .filter(function (head) {
-                        return head.labels.map(function (label) { return label.name === 'alpha' || label.name === 'staging'; });
-                    })
-                        .map(function (head) { return head === null || head === void 0 ? void 0 : head.number; });
+                    prNumberList = prList.data.map(function (head) {
+                        return (head.labels.filter(function (label) { return label.name === 'alpha' || label.name === 'staging'; }) && head.number);
+                    });
                     console.log(prNumberList);
                     if (!prNumberList.length) {
                         return [2 /*return*/, Promise.reject("alpha, staging \uB77C\uBCA8\uC774 \uD3EC\uD568\uB41C Pull Request\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4.")];
