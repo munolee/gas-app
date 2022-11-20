@@ -76,24 +76,24 @@ function findOpenPr(githubScript) {
 function removeLabels(githubScript, prNumberList) {
     var _a = githubScript.context.repo, repo = _a.repo, owner = _a.owner;
     console.log('--------------- 🗑 Remove Labels ---------------');
-    prNumberList.map(function (prNumber) {
+    Promise.allSettled(prNumberList.map(function (prNumber) {
         githubScript.github.rest.issues.removeLabel({
             owner: owner,
             repo: repo,
             issue_number: prNumber,
             name: 'alpha',
         });
-    });
-    console.log('🔔 Remove alpha labels');
-    prNumberList.map(function (prNumber) {
+    }));
+    console.log('🔔 Remove alpha label');
+    Promise.allSettled(prNumberList.map(function (prNumber) {
         githubScript.github.rest.issues.removeLabel({
             owner: owner,
             repo: repo,
             issue_number: prNumber,
             name: 'staging',
         });
-    });
-    console.log('🔔 Remove staging labels');
+    }));
+    console.log('🔔 Remove staging label');
 }
 var removeLabel = function (githubScript) { return __awaiter(void 0, void 0, void 0, function () {
     var prNumberList;
