@@ -105,7 +105,9 @@ var removeLabel = function (githubScript) { return __awaiter(void 0, void 0, voi
                 return [4 /*yield*/, findOpenPr(githubScript)];
             case 1:
                 prNumberList = _a.sent();
-                removeLabels(githubScript, prNumberList);
+                return [4 /*yield*/, removeLabels(githubScript, prNumberList)];
+            case 2:
+                _a.sent();
                 return [2 /*return*/];
         }
     });
