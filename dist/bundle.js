@@ -46,7 +46,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.removeLabel = void 0;
 function findOpenPr(githubScript) {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, repo, owner, prList, prNumberList;
+        var _a, repo, owner, prList, hasLabelPrList, prNumberList;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -59,14 +59,10 @@ function findOpenPr(githubScript) {
                     prList = _b.sent();
                     console.log('--------------- 🖨 Get PR List ---------------');
                     console.log('🔔 PR List: ', prList);
-                    prNumberList = prList.data.map(function (head) {
-                        var hasLabel = head.labels.find(function (label) {
-                            return label.name === 'alpha' || label.name === 'staging';
-                        });
-                        if (hasLabel) {
-                            return head.number;
-                        }
+                    hasLabelPrList = prList.data.filter(function (head) {
+                        return head.labels.some(function (label) { return label.name === 'alpha' || label.name === 'staging'; });
                     });
+                    prNumberList = hasLabelPrList.map(function (pr) { return pr.number; });
                     console.log(prNumberList);
                     if (!prNumberList.length) {
                         return [2 /*return*/, Promise.reject('alpha, staging 라벨이 포함된 Pull Request가 없습니다.')];
