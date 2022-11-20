@@ -10,18 +10,17 @@ async function findOpenPr(githubScript: GithubScriptInput) {
   console.log('🔔 PR List: ', prList);
 
   const prNumberList = prList.data.map((head) => {
-    return (
-      head.labels.filter(
-        (label) => label.name === 'alpha' || label.name === 'staging',
-      ) && head.number
-    );
+    const hasLabel = head.labels.find((label) => {
+      return label.name === 'alpha' || label.name === 'staging';
+    });
+    return hasLabel && head.number;
   });
 
   console.log(prNumberList);
 
   if (!prNumberList.length) {
     return Promise.reject(
-      `alpha, staging 라벨이 포함된 Pull Request가 없습니다.`,
+      'alpha, staging 라벨이 포함된 Pull Request가 없습니다.',
     );
   }
 
