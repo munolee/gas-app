@@ -62,7 +62,7 @@ function findOpenPr(githubScript) {
                     console.log('🔔 PR List: ', prList);
                     prNumber = (_a = prList.data.find(function (head) {
                         console.log(head.labels);
-                        head.labels.find(function (label) { return label.name === ('alpha' || 0); });
+                        return head.labels.find(function (label) { return label.name === ('alpha' || 0); });
                     })) === null || _a === void 0 ? void 0 : _a.number;
                     console.log(prNumber);
                     if (!prNumber) {
