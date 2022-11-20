@@ -65,5 +65,5 @@ export const removeLabel = async (githubScript: GithubScriptInput) => {
   // Get pull request number list has alpha/staging label
   const prNumberList = await findOpenPr(githubScript);
 
-  removeLabels(githubScript, prNumberList);
+  await removeLabels(githubScript, prNumberList);
 };
