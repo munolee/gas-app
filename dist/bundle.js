@@ -44,33 +44,45 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.removeLabel = void 0;
-var prList = function (githubScript) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, repo, owner, prList;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = githubScript.context.repo, repo = _a.repo, owner = _a.owner;
-                return [4 /*yield*/, githubScript.github.rest.pulls.list({
-                        owner: owner,
-                        repo: repo,
-                    })];
-            case 1:
-                prList = _b.sent();
-                console.log('--------------- 🖨 Get PR List ---------------');
-                console.log('🔔 PR List: ', prList);
-                return [2 /*return*/];
-        }
+var removeAlphaLabel = function (githubScript) {
+    var _a = githubScript.context.repo, repo = _a.repo, owner = _a.owner;
+    githubScript.github.rest;
+};
+function findOpenPr(githubScript) {
+    var _a;
+    return __awaiter(this, void 0, void 0, function () {
+        var _b, repo, owner, prList, prNumber;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    _b = githubScript.context.repo, repo = _b.repo, owner = _b.owner;
+                    return [4 /*yield*/, githubScript.github.rest.pulls.list({
+                            owner: owner,
+                            repo: repo,
+                        })];
+                case 1:
+                    prList = _c.sent();
+                    console.log('--------------- 🖨 Get PR List ---------------');
+                    console.log('🔔 PR List: ', prList);
+                    prNumber = (_a = prList.data.find(function (head) {
+                        console.log(head.labels);
+                        // head.labels.find(() => 'alpha', 'staging');
+                    })) === null || _a === void 0 ? void 0 : _a.number;
+                    return [2 /*return*/, prNumber];
+            }
+        });
     });
-}); };
+}
 var removeLabel = function (githubScript) { return __awaiter(void 0, void 0, void 0, function () {
+    var prNumber;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 console.log('-- Print Github Script Payload --');
                 console.log(githubScript.context.payload);
-                return [4 /*yield*/, prList(githubScript)];
+                return [4 /*yield*/, findOpenPr(githubScript)];
             case 1:
-                _a.sent();
+                prNumber = _a.sent();
                 return [2 /*return*/];
         }
     });
