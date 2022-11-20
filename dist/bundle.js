@@ -59,11 +59,13 @@ function findOpenPr(githubScript) {
                     prList = _b.sent();
                     console.log('--------------- 🖨 Get PR List ---------------');
                     console.log('🔔 PR List: ', prList);
-                    prNumberList = prList.data.filter(function (head) {
+                    prNumberList = prList.data.map(function (head) {
                         var hasLabel = head.labels.find(function (label) {
                             return label.name === 'alpha' || label.name === 'staging';
                         });
-                        return hasLabel && head.number;
+                        if (hasLabel) {
+                            return head.number;
+                        }
                     });
                     console.log(prNumberList);
                     if (!prNumberList.length) {
