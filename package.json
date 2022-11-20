@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && webpack",
+    "pre-release": "npm run build && git add . && git commit -m 'build - build file' && npm version patch && git push origin --tag"
   },
   "repository": {
     "type": "git",
