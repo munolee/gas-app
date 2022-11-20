@@ -76,24 +76,17 @@ function findOpenPr(githubScript) {
 function removeLabels(githubScript, prNumberList) {
     var _a = githubScript.context.repo, repo = _a.repo, owner = _a.owner;
     console.log('--------------- 🗑 Remove Labels ---------------');
-    Promise.allSettled(prNumberList.map(function (prNumber) {
-        githubScript.github.rest.issues.removeLabel({
-            owner: owner,
-            repo: repo,
-            issue_number: prNumber,
-            name: 'alpha',
+    console.log('🔔 Remove alpha/staging label');
+    return Promise.allSettled(['alpha', 'staging'].map(function (label) {
+        prNumberList.map(function (prNumber) {
+            githubScript.github.rest.issues.removeLabel({
+                owner: owner,
+                repo: repo,
+                issue_number: prNumber,
+                name: 'alpha',
+            });
         });
     }));
-    console.log('🔔 Remove alpha label');
-    Promise.allSettled(prNumberList.map(function (prNumber) {
-        githubScript.github.rest.issues.removeLabel({
-            owner: owner,
-            repo: repo,
-            issue_number: prNumber,
-            name: 'staging',
-        });
-    }));
-    console.log('🔔 Remove staging label');
 }
 var removeLabel = function (githubScript) { return __awaiter(void 0, void 0, void 0, function () {
     var prNumberList;
@@ -105,8 +98,10 @@ var removeLabel = function (githubScript) { return __awaiter(void 0, void 0, voi
                 return [4 /*yield*/, findOpenPr(githubScript)];
             case 1:
                 prNumberList = _a.sent();
+                // Remove labels
                 return [4 /*yield*/, removeLabels(githubScript, prNumberList)];
             case 2:
+                // Remove labels
                 _a.sent();
                 return [2 /*return*/];
         }
