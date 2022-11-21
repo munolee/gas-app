@@ -31,6 +31,7 @@ function removeLabels(githubScript: GithubScriptInput, prNumberList: number[]) {
     console.log('--------------- 🗑 Remove Labels ---------------');
     console.log('🔔 Remove alpha/staging label');
 
+    console.log('삭제를 진행합니다');
     Promise.allSettled(
       ['alpha', 'staging'].map((label) => {
         prNumberList.map((prNumber) => {
