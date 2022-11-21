@@ -26,22 +26,27 @@ async function findOpenPr(githubScript: GithubScriptInput) {
 
 // alpha, staging label 삭제
 function removeLabels(githubScript: GithubScriptInput, prNumberList: number[]) {
-  const { repo, owner } = githubScript.context.repo;
-  console.log('--------------- 🗑 Remove Labels ---------------');
-  console.log('🔔 Remove alpha/staging label');
+  try {
+    const { repo, owner } = githubScript.context.repo;
+    console.log('--------------- 🗑 Remove Labels ---------------');
+    console.log('🔔 Remove alpha/staging label');
 
-  return Promise.allSettled(
-    ['alpha', 'staging'].map((label) => {
-      prNumberList.map((prNumber) => {
-        githubScript.github.rest.issues.removeLabel({
-          owner,
-          repo,
-          issue_number: prNumber,
-          name: label,
+    return Promise.allSettled(
+      ['alpha', 'staging'].map((label) => {
+        prNumberList.map((prNumber) => {
+          githubScript.github.rest.issues.removeLabel({
+            owner,
+            repo,
+            issue_number: prNumber,
+            name: label,
+          });
         });
-      });
-    }),
-  );
+      }),
+    );
+  } catch (err) {
+    console.log('PR의 라벨 삭제가 이미 진행되었습니다.');
+    console.log(err);
+  }
 }
 
 export const removeLabel = async (githubScript: GithubScriptInput) => {
