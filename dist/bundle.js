@@ -78,20 +78,21 @@ function removeLabels(githubScript, prNumberList) {
         console.log('🔔 Remove alpha/staging label');
         Promise.allSettled(['alpha', 'staging'].map(function (label) {
             prNumberList.map(function (prNumber) {
-                githubScript.github.rest.issues.removeLabel({
+                githubScript.github.rest.issues
+                    .removeLabel({
                     owner: owner_1,
                     repo: repo_1,
                     issue_number: prNumber,
                     name: label,
+                })
+                    .catch(function (err) {
+                    console.log('PR의 라벨 삭제가 이미 진행되었습니다.');
+                    console.log(err);
                 });
             });
-        })).catch(function (err) {
-            console.log('PR의 라벨 삭제가 이미 진행되었습니다.');
-            console.log(err);
-        });
+        }));
     }
     catch (err) {
-        console.log('PR의 라벨 삭제가 이미 진행되었습니다.');
         console.log(err);
     }
 }
