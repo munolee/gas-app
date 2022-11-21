@@ -34,20 +34,21 @@ function removeLabels(githubScript: GithubScriptInput, prNumberList: number[]) {
     Promise.allSettled(
       ['alpha', 'staging'].map((label) => {
         prNumberList.map((prNumber) => {
-          githubScript.github.rest.issues.removeLabel({
-            owner,
-            repo,
-            issue_number: prNumber,
-            name: label,
-          });
+          githubScript.github.rest.issues
+            .removeLabel({
+              owner,
+              repo,
+              issue_number: prNumber,
+              name: label,
+            })
+            .catch((err) => {
+              console.log('PR의 라벨 삭제가 이미 진행되었습니다.');
+              console.log(err);
+            });
         });
       }),
-    ).catch((err) => {
-      console.log('PR의 라벨 삭제가 이미 진행되었습니다.');
-      console.log(err);
-    });
+    );
   } catch (err) {
-    console.log('PR의 라벨 삭제가 이미 진행되었습니다.');
     console.log(err);
   }
 }
