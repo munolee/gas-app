@@ -76,7 +76,7 @@ function removeLabels(githubScript, prNumberList) {
         var _a = githubScript.context.repo, repo_1 = _a.repo, owner_1 = _a.owner;
         console.log('--------------- 🗑 Remove Labels ---------------');
         console.log('🔔 Remove alpha/staging label');
-        return Promise.allSettled(['alpha', 'staging'].map(function (label) {
+        Promise.allSettled(['alpha', 'staging'].map(function (label) {
             prNumberList.map(function (prNumber) {
                 githubScript.github.rest.issues.removeLabel({
                     owner: owner_1,
