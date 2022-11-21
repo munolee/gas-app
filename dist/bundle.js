@@ -72,19 +72,25 @@ function findOpenPr(githubScript) {
 }
 // alpha, staging label 삭제
 function removeLabels(githubScript, prNumberList) {
-    var _a = githubScript.context.repo, repo = _a.repo, owner = _a.owner;
-    console.log('--------------- 🗑 Remove Labels ---------------');
-    console.log('🔔 Remove alpha/staging label');
-    return Promise.allSettled(['alpha', 'staging'].map(function (label) {
-        prNumberList.map(function (prNumber) {
-            githubScript.github.rest.issues.removeLabel({
-                owner: owner,
-                repo: repo,
-                issue_number: prNumber,
-                name: label,
+    try {
+        var _a = githubScript.context.repo, repo_1 = _a.repo, owner_1 = _a.owner;
+        console.log('--------------- 🗑 Remove Labels ---------------');
+        console.log('🔔 Remove alpha/staging label');
+        return Promise.allSettled(['alpha', 'staging'].map(function (label) {
+            prNumberList.map(function (prNumber) {
+                githubScript.github.rest.issues.removeLabel({
+                    owner: owner_1,
+                    repo: repo_1,
+                    issue_number: prNumber,
+                    name: label,
+                });
             });
-        });
-    }));
+        }));
+    }
+    catch (err) {
+        console.log('PR의 라벨 삭제가 이미 진행되었습니다.');
+        console.log(err);
+    }
 }
 var removeLabel = function (githubScript) { return __awaiter(void 0, void 0, void 0, function () {
     var prNumberList;
