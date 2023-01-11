@@ -7,7 +7,7 @@ async function checkDeployTag(githubScript: GithubScriptInput) {
 }
 
 export const createRelease = async (githubScript: GithubScriptInput) => {
-  const isDisabledRelease = checkDeployTag(githubScript);
+  const isDisabledRelease = await checkDeployTag(githubScript);
   if (isDisabledRelease) {
     return;
   }
