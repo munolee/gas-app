@@ -50,18 +50,18 @@ function checkDeployTag(githubScript) {
         return __generator(this, function (_a) {
             ref = githubScript.context.payload.ref;
             console.log(ref);
-            return [2 /*return*/, ref.includes('/tags')];
+            return [2 /*return*/, ref.includes('/heads')];
         });
     });
 }
 var createRelease = function (githubScript) { return __awaiter(void 0, void 0, void 0, function () {
-    var isDisabledRelease;
+    var isReleaseEnabled;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, checkDeployTag(githubScript)];
             case 1:
-                isDisabledRelease = _a.sent();
-                if (isDisabledRelease) {
+                isReleaseEnabled = _a.sent();
+                if (!isReleaseEnabled) {
                     return [2 /*return*/];
                 }
                 console.log('Enable Release');
