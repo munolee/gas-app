@@ -1,12 +1,15 @@
 import { GithubScriptInput } from './types/github-script.type';
 
+/** * github action에서 Use workflow from(ref)을 Branch로 선택한 경우만 릴리즈 노트 생성 허용 */
 async function checkDeployTag(githubScript: GithubScriptInput) {
   const { ref } = githubScript.context.payload;
-  console.log(ref);
+  // Branch로 workflow를 진행할 경우 ref -> refs/heads/main
+  // Tags로 workflow를 진행할 경우 ref -> refs/tags/v1.2.3
   return ref.includes('/heads');
 }
 
 export const createRelease = async (githubScript: GithubScriptInput) => {
+  // ref를 Tags로 선택하여 배포하였을 경우 릴리즈 노트 생성을 실행하지 않도록 함 (Tags로 롤백하는 경우 예상)
   const isReleaseEnabled = await checkDeployTag(githubScript);
   if (!isReleaseEnabled) {
     return;
