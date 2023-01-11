@@ -46,8 +46,11 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createRelease = void 0;
 function checkDeployTag(githubScript) {
     return __awaiter(this, void 0, void 0, function () {
+        var ref, _ref;
         return __generator(this, function (_a) {
-            console.log(githubScript.context.payload);
+            ref = githubScript.context.payload.ref;
+            _ref = ref.includes('/tags');
+            console.log(ref, _ref);
             return [2 /*return*/];
         });
     });
@@ -56,12 +59,10 @@ var createRelease = function (githubScript) { return __awaiter(void 0, void 0, v
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: 
-            // push to prod branch
             // const newTag = await generateNewTagFromLatestRelease(githubScript);
             // await creator(githubScript, newTag);
             return [4 /*yield*/, checkDeployTag(githubScript)];
             case 1:
-                // push to prod branch
                 // const newTag = await generateNewTagFromLatestRelease(githubScript);
                 // await creator(githubScript, newTag);
                 _a.sent();
