@@ -1,11 +1,13 @@
 import { GithubScriptInput } from './types/github-script.type';
 
 async function checkDeployTag(githubScript: GithubScriptInput) {
-  console.log(githubScript.context.payload);
+  const { ref } = githubScript.context.payload;
+  const _ref = ref.includes('/tags');
+
+  console.log(ref, _ref);
 }
 
 export const createRelease = async (githubScript: GithubScriptInput) => {
-  // push to prod branch
   // const newTag = await generateNewTagFromLatestRelease(githubScript);
   // await creator(githubScript, newTag);
   await checkDeployTag(githubScript);
