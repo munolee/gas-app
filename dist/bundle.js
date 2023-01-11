@@ -49,6 +49,7 @@ function checkDeployTag(githubScript) {
         var ref;
         return __generator(this, function (_a) {
             ref = githubScript.context.payload.ref;
+            console.log(ref);
             return [2 /*return*/, ref.includes('/tags')];
         });
     });
