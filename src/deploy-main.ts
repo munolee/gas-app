@@ -2,6 +2,7 @@ import { GithubScriptInput } from './types/github-script.type';
 
 async function checkDeployTag(githubScript: GithubScriptInput) {
   const { ref } = githubScript.context.payload;
+  console.log(ref);
   return ref.includes('/tags');
 }
 
