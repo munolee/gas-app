@@ -1,3 +1,4 @@
-import {removeLabel} from "./remove-label";
+import { removeLabel } from './remove-label';
+import { createRelease } from './deploy-main';
 
-export {removeLabel}
+export { removeLabel, createRelease };
