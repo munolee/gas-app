@@ -46,32 +46,29 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createRelease = void 0;
 function checkDeployTag(githubScript) {
     return __awaiter(this, void 0, void 0, function () {
-        var ref, _ref;
+        var ref;
         return __generator(this, function (_a) {
             ref = githubScript.context.payload.ref;
-            _ref = ref.includes('/tags');
-            console.log(ref, _ref);
-            return [2 /*return*/];
+            return [2 /*return*/, ref.includes('/tags')];
         });
     });
 }
 var createRelease = function (githubScript) { return __awaiter(void 0, void 0, void 0, function () {
+    var isDisabledRelease;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: 
-            // const newTag = await generateNewTagFromLatestRelease(githubScript);
-            // await creator(githubScript, newTag);
-            return [4 /*yield*/, checkDeployTag(githubScript)];
-            case 1:
-                // const newTag = await generateNewTagFromLatestRelease(githubScript);
-                // await creator(githubScript, newTag);
-                _a.sent();
+            case 0:
+                isDisabledRelease = checkDeployTag(githubScript);
+                if (isDisabledRelease) {
+                    return [2 /*return*/];
+                }
+                console.log('Enable Release');
                 return [4 /*yield*/, new Promise(function (resolve) {
                         return setTimeout(function () {
                             resolve('');
                         }, 3000);
                     })];
-            case 2: 
+            case 1: 
             // github 에서 latest release 를 가져올 때, 확실히 신규로 생성된 release 를 가져올 수 있도록 delay 추가 (없으면 추측하기로는 timing 이슈 때문에 prev 버전을 최신으로 가져오는 상황이 발생함)
             return [2 /*return*/, _a.sent()];
         }
