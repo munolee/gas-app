@@ -58,8 +58,9 @@ var createRelease = function (githubScript) { return __awaiter(void 0, void 0, v
     var isDisabledRelease;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                isDisabledRelease = checkDeployTag(githubScript);
+            case 0: return [4 /*yield*/, checkDeployTag(githubScript)];
+            case 1:
+                isDisabledRelease = _a.sent();
                 if (isDisabledRelease) {
                     return [2 /*return*/];
                 }
@@ -69,7 +70,7 @@ var createRelease = function (githubScript) { return __awaiter(void 0, void 0, v
                             resolve('');
                         }, 3000);
                     })];
-            case 1: 
+            case 2: 
             // github 에서 latest release 를 가져올 때, 확실히 신규로 생성된 release 를 가져올 수 있도록 delay 추가 (없으면 추측하기로는 timing 이슈 때문에 prev 버전을 최신으로 가져오는 상황이 발생함)
             return [2 /*return*/, _a.sent()];
         }
