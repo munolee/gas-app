@@ -3,12 +3,12 @@ import { GithubScriptInput } from './types/github-script.type';
 async function checkDeployTag(githubScript: GithubScriptInput) {
   const { ref } = githubScript.context.payload;
   console.log(ref);
-  return ref.includes('/tags');
+  return ref.includes('/heads');
 }
 
 export const createRelease = async (githubScript: GithubScriptInput) => {
-  const isDisabledRelease = await checkDeployTag(githubScript);
-  if (isDisabledRelease) {
+  const isReleaseEnabled = await checkDeployTag(githubScript);
+  if (!isReleaseEnabled) {
     return;
   }
 
