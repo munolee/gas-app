@@ -1,3 +1,4 @@
 import { removeLabel } from './remove-label';
 import { createRelease } from './deploy-main';
-export { removeLabel, createRelease };
+import { deleteBranch } from './merged-pr';
+export { removeLabel, createRelease, deleteBranch };
