@@ -1,6 +1,6 @@
 {
   "name": "@munolee/gas-app",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "description": "",
   "main": "dist/bundle.js",
   "scripts": {
